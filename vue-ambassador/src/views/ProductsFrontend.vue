@@ -1,17 +1,17 @@
 <template>
-  <Products :products="filteredProducts" :filters="filters" @set-filters="filtersChanged" :lastPage="lastPage"/>
+  <Products :products="filteredProducts" :filters="filters" @set-filters="filtersChanged" :lastPage="lastPage" />
 </template>
 
 <script lang="ts">
-import Products from "@/views/Products";
-import {onMounted, reactive, ref} from "vue";
-import {Product} from "@/models/product";
+import Products from "@/views/Products.vue";
+import { onMounted, reactive, ref } from "vue";
+import { Product } from "@/models/product";
 import axios from "axios";
-import {Filter} from "@/models/filter";
+import { Filter } from "@/models/filter";
 
 export default {
   name: "ProductsFrontend",
-  components: {Products},
+  components: { Products },
   setup() {
     const allProducts = ref<Product[]>([]);
     const filteredProducts = ref<Product[]>([]);
@@ -24,7 +24,7 @@ export default {
     const perPage = 9;
 
     onMounted(async () => {
-      const {data} = await axios.get('products/frontend');
+      const { data } = await axios.get('products/frontend');
 
       allProducts.value = data;
       filteredProducts.value = data.slice(0, filters.page * perPage);
@@ -37,7 +37,7 @@ export default {
       filters.page = f.page;
 
       let products = allProducts.value.filter(p => p.title.toLowerCase().indexOf(filters.s.toLowerCase()) >= 0 ||
-          p.description.toLowerCase().indexOf(filters.s.toLowerCase()) >= 0);
+        p.description.toLowerCase().indexOf(filters.s.toLowerCase()) >= 0);
 
       if (filters.sort === 'asc' || filters.sort === 'desc') {
         products.sort((a, b) => {

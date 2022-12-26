@@ -1,17 +1,17 @@
 <template>
-  <Products :products="products" :filters="filters" @set-filters="load" :lastPage="lastPage"/>
+  <Products :products="products" :filters="filters" @set-filters="load" :lastPage="lastPage" />
 </template>
 
 <script lang="ts">
-import Products from "./Products";
-import {onMounted, reactive, ref} from "vue";
-import {Product} from "@/models/product";
+import Products from "@/views/Products.vue";
+import { onMounted, reactive, ref } from "vue";
+import { Product } from "@/models/product";
 import axios from "axios";
-import {Filter} from "@/models/filter";
+import { Filter } from "@/models/filter";
 
 export default {
   name: "ProductsBackend",
-  components: {Products},
+  components: { Products },
   setup() {
     const products = ref<Product[]>([]);
     const filters = reactive<Filter>({
@@ -40,7 +40,7 @@ export default {
         arr.push(`page=${filters.page}`);
       }
 
-      const {data} = await axios.get(`products/backend?${arr.join('&')}`);
+      const { data } = await axios.get(`products/backend?${arr.join('&')}`);
 
       products.value = filters.page === 1 ? data.data : [...products.value, ...data.data];
       lastPage.value = data.meta.last_page;
